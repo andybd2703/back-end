@@ -1,0 +1,19 @@
+spring:
+    #Configuracion de la conexion a mysql
+    datasource:
+        url: jdbc:mysql://localhost:3306/backenddemo
+        username: root
+        password: root
+        driver-class-name: com.mysql.cj.jdbc.driver
+
+
+    jpa:
+        hibernate:
+            ddl-auto: update
+        showsql: true
+        database-platform: org.hibernate.dialect.MySQL8Dialect 
+    
+    #Configuracion de la conexion para MongoDB:
+    data:
+        mongodb:
+            uri: cadena_conexoin_mongodb

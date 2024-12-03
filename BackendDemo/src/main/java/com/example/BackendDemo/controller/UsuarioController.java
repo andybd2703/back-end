@@ -1,37 +1,45 @@
 package com.example.BackendDemo.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.example.BackendDemo.model.Usuario;
 import com.example.BackendDemo.services.Usuarioservice;
 
-@RestController
-@RequestMapping("/api/usuarios")
+@Controller
+@RequestMapping("/usuarios")
 public class UsuarioController {
 
     @Autowired
     private Usuarioservice usuarioService;
 
-    //Endpoint para listar todo los usuarios:
-    // (Usa método HTTP Get)
-
-    @GetMapping
-    public List<Usuario> listarUsuarios(){
-        return usuarioService.selectAllUsers();
+    @GetMapping("/nuevo")
+    public String mostrarFormulario(Model model) {
+        model.addAttribute("usuario", new Usuario());
+        return "crear_usuario";
     }
 
+    @PostMapping("/guardar")
+    public String guardarUsuario(@ModelAttribute Usuario usuario) {
+        usuarioService.createUser(usuario);
+        return "redirect:/usuarios";
+    }
 
-    //Endpoint para guardar un usuario:
-    // (Usa método HTTP Post)
-    @PostMapping
-    public Usuario creUsuario(@RequestBody Usuario nuevoUsuario){
-        return usuarioService.createUser(nuevoUsuario);
+    @GetMapping
+    public String listarUsuarios(Model model) {
+        model.addAttribute("usuarios", usuarioService.selectAllUsers());
+        return "lista_usuarios";
+    }
+
+    // Endpoint adicional para usar con JavaScript directamente
+    @PostMapping("/api/guardar")
+    public Usuario guardarUsuarioAPI(@RequestBody Usuario usuario) {
+        return usuarioService.createUser(usuario);
     }
 }

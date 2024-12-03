@@ -1,10 +1,13 @@
+create database backend;
 use backend;
 create table usuario(
 id int not null primary key auto_increment,
 documento varchar (100),
 nombre  varchar (150),
 correo varchar (150),
-contraseña varchar(30)
+contraseña varchar(30),
+nacionalidad varchar(100),
+estamento varchar(100)
 );
 
 create table evento (
